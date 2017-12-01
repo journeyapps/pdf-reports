@@ -17,7 +17,7 @@ export async function generatePdf(options: PdfGeneratorOptions) {
     throw new Error('token is required');
   }
 
-  const url = options.url || getUrl(options.region);
+  const url = options.serviceUrl || getUrl(options.region);
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -31,7 +31,8 @@ export async function generatePdf(options: PdfGeneratorOptions) {
     throw new Error('Failed to generate PDF: ' + response.statusText + "\n" + await response.text());
   }
 
-  return new PdfResult(await response.json());
+  const { location } = await response.json() as { location: string };
+  return new GeneratedPdfResult(location);
 }
 
 function autoRegion() {
@@ -66,6 +67,9 @@ export class PdfResult {
   async toBuffer(): Promise<Buffer> {
     if (!this._buffer) {
       this._buffer = await this.download();
+      if (!(this._buffer instanceof Buffer)) {
+        throw new Error('Not a buffer!');
+      }
     }
 
     return this._buffer;
@@ -89,10 +93,11 @@ export class PdfResult {
   }
 }
 
-export class GeneratedPdfResult {
+export class GeneratedPdfResult extends PdfResult {
   readonly location: string;
 
   constructor(location: string) {
+    super();
     this.location = location;
   }
 
@@ -147,5 +152,5 @@ export interface PdfGeneratorOptions extends PdfOptions {
   /**
    * Custom URL for the PDF service.
    */
-  url?: string;
+  serviceUrl?: string;
 }
