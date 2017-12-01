@@ -1,0 +1,17 @@
+{
+  "name": "@journeyapps/pdf-reports",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "repository": "https://github.com/journeyapps/pdf-reports",
+  "author": "JourneyApps <info@journeyapps.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "aws-sdk": "^2.162.0",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.53",
+    "@types/node-fetch": "^1.6.7",
+    "typescript": "^2.6.2"
+  }
+}
