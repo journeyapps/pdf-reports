@@ -1,0 +1,11 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@journeyapps/pdf-reports": "../",
+    "@sendgrid/mail": "^6.1.4",
+    "node-fetch": "^1.7.3"
+  }
+}
