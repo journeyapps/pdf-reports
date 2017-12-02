@@ -5,6 +5,10 @@
   "repository": "https://github.com/journeyapps/pdf-reports",
   "author": "JourneyApps <info@journeyapps.com>",
   "license": "MIT",
+  "scripts": {
+    "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc -p tsconfig.json",
+    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags"
+  },
   "peerDependencies": {
     "aws-sdk": "^2.162.0",
     "node-fetch": "^1.7.3"

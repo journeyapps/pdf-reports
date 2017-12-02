@@ -40,10 +40,10 @@ jobs:
           command: |
             if [[ "$CIRCLE_TAG" =~ ^v[0-9]*\.[0-9]*\.[0-9]*$ ]]; then
               echo "Release $CIRCLE_TAG"
-              yarn publish
+              npm publish
             else
               echo "Prerelease $CIRCLE_TAG"
-              yarn publish --tag next
+              npm publish --tag next
             fi
 
 workflows:
