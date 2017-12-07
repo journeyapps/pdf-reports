@@ -7,10 +7,10 @@ pdf.setApiToken(process.env.JOURNEY_PDF_KEY);
 const emailAddress = process.env.TEST_EMAIL;
 
 async function test() {
-    const [pdf1, pdf2] = [
-      await pdf.generatePdf({ url: 'https://journeyapps.com' }),
-      await pdf.generatePdf({ html: 'Plain html pdf' })
-    ];
+    const [pdf1, pdf2] = await Promise.all([
+      pdf.generatePdf({ url: 'https://journeyapps.com' }),
+      pdf.generatePdf({ html: 'Plain html pdf' })
+    ]);
 
     const email = {
         to: emailAddress,
