@@ -16,8 +16,7 @@ jobs:
           paths:
             - node_modules
       - run: ./node_modules/.bin/tsc
-      # TODO:
-      # - run: yarn test
+      - run: yarn test
 
   publish:
     working_directory: ~/circulate

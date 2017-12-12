@@ -10,7 +10,7 @@
     "alwaysStrict": true,
     "outDir": "lib",
     "rootDir": "src",
-    "declaration": true,
+    "declaration": false,
     "allowJs": false,
     "types": [
       "node",
@@ -21,7 +21,6 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules/**/*",
-    "**/*.spec.ts"
+    "node_modules/**/*"
   ]
 }

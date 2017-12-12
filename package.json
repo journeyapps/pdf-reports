@@ -6,16 +6,23 @@
   "author": "JourneyApps <info@journeyapps.com>",
   "license": "MIT",
   "scripts": {
-    "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc -p tsconfig.json",
-    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags"
+    "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc --project tsconfig.production.json",
+    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
+    "test": "./node_modules/.bin/mocha"
   },
   "peerDependencies": {
     "aws-sdk": "^2.162.0",
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",
     "@types/node-fetch": "^1.6.7",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "node-fetch": "^1.7.3",
+    "ts-node": "^4.0.1",
     "typescript": "^2.6.2"
   }
 }
