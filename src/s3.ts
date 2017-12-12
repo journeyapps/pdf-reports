@@ -5,6 +5,10 @@ import fetch from "node-fetch";
 /**
  * Generate a PDF and upload to S3.
  *
+ * This has roughly the same effect as (await generatePdf(options)).uploadToS3(s3options).
+ * However, this version is more efficient, since the service uploads directly to the S3 bucket
+ * when generating the PDF, instead of first downloading it locally and then uploading it again.
+ *
  * @param options - pdf options
  * @param upload - s3 options
  */
@@ -12,8 +16,8 @@ export async function generateAndUploadPdf(options: PdfGeneratorOptions, upload:
   const AWS = require('aws-sdk');
 
   const bucketName = upload.bucket;
-  const s3Options = upload.s3Options;
-  const s3 = new AWS.S3(s3Options);
+  const credentials = upload.credentials;
+  const s3 = new AWS.S3(credentials);
 
   const path = (upload.prefix || '') + upload.name;
   const url = s3.getSignedUrl('putObject', {
@@ -27,20 +31,46 @@ export async function generateAndUploadPdf(options: PdfGeneratorOptions, upload:
   return new S3UploadResult(path, upload);
 }
 
+export async function uploadPdf(buffer: Buffer, options: S3UploadOptions) {
+  const AWS = require('aws-sdk');
+
+  const bucketName = options.bucket;
+  const credentials = options.credentials;
+  const s3 = new AWS.S3(credentials);
+
+  const path = (options.prefix || '') + options.name;
+
+  await s3.putObject({
+    Bucket: options.bucket,
+    Key: path,
+    Body: buffer,
+    ContentType: 'application/pdf'
+  }).promise();
+
+  const result = new S3UploadResult(path, options, buffer);
+}
 
 export class S3UploadResult extends PdfResult {
   readonly path: string;
   readonly name: string;
   readonly bucket: string;
-  private readonly s3Options: S3Options;
+  private readonly s3Options: S3Credentials;
 
-  constructor(path: string, options: S3UploadOptions) {
+  constructor(path: string, options: S3UploadOptions, buffer?: Buffer) {
     super();
     this.bucket = options.bucket;
     this.path = path;
     this.name = options.name;
+    if (buffer) {
+      this._buffer = buffer;
+    }
   }
 
+  /**
+   * Return a signed URL, that can be used in an email for example.
+   *
+   * @param expiresAfterSeconds - number of seconds after which the URL will expire. Defaults to 7 days.
+   */
   getSignedUrl(expiresAfterSeconds?: number) {
     const AWS = require('aws-sdk');
 
@@ -70,7 +100,7 @@ export class S3UploadResult extends PdfResult {
 }
 
 
-export interface S3Options {
+export interface S3Credentials {
   region: string;
   accessKeyId?: string;
   secretAccessKey?: string;
@@ -95,5 +125,5 @@ export interface S3UploadOptions {
   /**
    * S3 credentials
    */
-  s3Options: S3Options;
+  credentials: S3Credentials;
 }
