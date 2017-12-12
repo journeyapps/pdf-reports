@@ -31,8 +31,27 @@ export async function generateAndUploadPdf(options: PdfGeneratorOptions, upload:
   return new S3UploadResult(path, upload);
 }
 
-export async function uploadPdf(buffer: Buffer, options: S3UploadOptions) {
+
+/**
+ * Upload the PDF to S3.
+ *
+ * Note: It is more efficient to use the generateAndUploadPdf method, which
+ * uploads to S3 directly from the PDF service, instead of first downloading
+ * and then uploading again.
+ *
+ * When using DocRaptor, this is the only option for uploading to S3.
+ *
+ * @param options - S3 details and credentials
+ */
+export async function uploadToS3(pdf: Buffer | PdfResult, options: S3UploadOptions): Promise<S3UploadResult> {
   const AWS = require('aws-sdk');
+
+  let buffer: Buffer;
+  if (pdf instanceof Buffer) {
+    buffer = pdf;
+  } else {
+    buffer = await pdf.toBuffer();
+  }
 
   const bucketName = options.bucket;
   const credentials = options.credentials;
@@ -47,7 +66,7 @@ export async function uploadPdf(buffer: Buffer, options: S3UploadOptions) {
     ContentType: 'application/pdf'
   }).promise();
 
-  const result = new S3UploadResult(path, options, buffer);
+  return new S3UploadResult(path, options, buffer);
 }
 
 export class S3UploadResult extends PdfResult {

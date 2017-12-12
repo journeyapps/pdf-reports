@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { S3Credentials } from "./index";
-import { S3UploadOptions, uploadPdf } from "./s3";
+import { S3UploadOptions, uploadToS3 } from "./s3";
 
 var globalToken: string = null;
 
@@ -106,22 +106,6 @@ export class PdfResult {
       type: 'application/pdf',
       disposition: 'attachment'
     };
-  }
-
-  /**
-   * Upload the PDF to S3.
-   *
-   * Note: It is more efficient to use the generateAndUploadPdf method, which
-   * uploads to S3 directly from the PDF service, instead of first downloading
-   * and then uploading again.
-   *
-   * When using DocRaptor, this is the only option for uploading to S3.
-   *
-   * @param options - S3 details and credentials
-   */
-  async uploadToS3(options: S3UploadOptions) {
-    const buffer = await this.toBuffer();
-    return await uploadPdf(buffer, options);
   }
 
   protected async download(): Promise<Buffer> {
