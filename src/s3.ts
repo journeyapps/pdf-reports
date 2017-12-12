@@ -123,6 +123,7 @@ export interface S3Credentials {
   region: string;
   accessKeyId?: string;
   secretAccessKey?: string;
+  sessionToken?: string;
 }
 
 export interface S3UploadOptions {
