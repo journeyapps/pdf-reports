@@ -16,27 +16,25 @@ export function setDocRaptorToken(token: string) {
 export async function generatePdfDocRaptor(options: DocRaptorGenerateOptions) {
   const docraptor = options.docraptor;
   const apiKey = (docraptor && docraptor.user_credentials) || docRaptorToken;
-  const body: any = {
-    doc: {
-      type: 'pdf',
-      javascript: true,
-      test: options.test || apiKey == null,
-      prince_options: {
-        no_compress: false
-      }
+  const body: DocRaptorOptions = {
+    type: 'pdf',
+    javascript: true,
+    test: options.test || apiKey == null,
+    prince_options: {
+      no_compress: false
     }
   };
   if (apiKey) {
     body.user_credentials = apiKey;
   }
-  if (docraptor && docraptor.doc) {
-    Object.assign(body.doc, docraptor.doc);
+  if (docraptor && docraptor) {
+    Object.assign(body, docraptor);
   }
 
   if (options.html) {
-    body.doc.html_content = options.html;
+    body.document_content = options.html;
   } else if(options.url) {
-    body.doc.document_url = options.url;
+    body.document_url = options.url;
   }
 
   const response = await fetch('https://docraptor.com/docs', {
@@ -60,6 +58,25 @@ export interface DocRaptorGenerateOptions extends PdfOptions {
 }
 
 export interface DocRaptorOptions {
+  name?: string;
+  pipeline?: number;
+  prince_options?: any;
+  javascript?: boolean;
+  ignore_console_messages?: boolean;
+  ignore_resource_errors?: boolean;
+  strict?: boolean;
+  help?: boolean;
+  tag?: string;
+
+  // Our library already configures these options
+  test?: boolean;
   user_credentials?: string;
-  doc?: any;
+  document_content?: string;
+  document_url?: string;
+
+  // These options are not supported by us, but we document it anyway
+  type?: string;
+  referrer?: string;
+  async?: boolean;
+  callback_url?: string;
 }
