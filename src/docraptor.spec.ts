@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import { generatePdfDocRaptor, setDocRaptorToken } from './docraptor';
 
-setDocRaptorToken(process.env.DOCRAPTOR_TOKEN);
+setDocRaptorToken(process.env.DOCRAPTOR_TOKEN || 'YOUR_API_KEY_HERE');
 
 describe('pdfs - docraptor', function() {
   it('should generate a PDF from static text', async function() {
