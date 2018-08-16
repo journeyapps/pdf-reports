@@ -77,6 +77,7 @@ export class S3UploadResult extends PdfResult {
 
   constructor(path: string, options: S3UploadOptions, buffer?: Buffer) {
     super();
+    this.s3Options = options.credentials;
     this.bucket = options.bucket;
     this.path = path;
     this.name = options.name;
