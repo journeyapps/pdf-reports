@@ -1,6 +1,6 @@
 {
   "name": "@journeyapps/pdf-reports",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "lib/index.js",
   "repository": "https://github.com/journeyapps/pdf-reports",
   "author": "JourneyApps <info@journeyapps.com>",
