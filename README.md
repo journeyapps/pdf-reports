@@ -82,6 +82,56 @@ await pdf.generatePdf({
 });
 ```
 
+Official documentation for the options are here:
+
+https://chromedevtools.github.io/devtools-protocol/1-3/Page#method-printToPDF
+
+### Headers and footers
+
+A template for a header and/or footer can be provided, to render on every page.
+When specifying a class of pageNumber, date, title, url or totalPages, the contents
+of the tag is automatically replaced with the computed content.
+
+```js
+await pdf.generatePdf({
+  html: "<h1>Test PDF</h1>",
+  print: {
+    // These are the defaults used by the service.
+    // Specify any of these to override the value.
+    landscape: false,
+    displayHeaderFooter: true,
+    headerTemplate: `
+      <div class="pageNumber" id='num' style="font-size: 10px;"></div>
+      <div class="date" style="font-size: 10px;"></div>
+      <div class="title" style="font-size: 10px;"></div>
+      <div class="url" style="font-size: 10px;"></div>
+      <div class="totalPages" style="font-size: 10px;"></div>
+    `,
+    footerTemplate: '',
+    printBackground: true,
+    scale: 1,
+    paperWidth: 8.27, // A4
+    paperHeight: 11.69, // A4
+    marginTop: 1,
+    marginBottom: 1,
+    marginLeft: 1,
+    marginRight: 1,
+    pageRanges: ''
+  }
+});
+```
+
+There are some caveats and limitations to be aware of:
+ * `displayHeaderFooter` must be set to true for the templates to have an effect.
+ * The headers and footers are rendered behind the page contents. If the page has a solid white background,
+   the headers and footers won't be visible at all, unless a sufficient margin is added.
+ * Apart from the computed content, the same header and footer is rendered on every page. It is not possible
+   to script or customize the headers and footers per page.
+ * The rendering of the headers and footers happen in a completely separate context from the rest of the page.
+   It is not possible to use styles from the page in the headers and footers.
+ * Headers and footers do not support external resources, including stylesheets and images. Inline styles, and
+   images with inline base64 content, are supported.
+
 ## Using DocRaptor
 
 By default, a Chrome rendering service is used. To use DocRaptor instead,

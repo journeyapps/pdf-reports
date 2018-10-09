@@ -1,6 +1,4 @@
 import fetch from "node-fetch";
-import { S3Credentials } from "./index";
-import { S3UploadOptions, uploadToS3 } from "./s3";
 
 var globalToken: string = null;
 
@@ -55,7 +53,7 @@ function getUrl(region?: string) {
   if (region == null) {
     region = autoRegion();
   }
-  return `https://pdf-${region}.journeyapps.com/v1/generate-pdf`;
+  return `https://pdf-${region}.journeyapps.com/v2/generate-pdf`;
 }
 
 /**
@@ -135,6 +133,8 @@ export class GeneratedPdfResult extends PdfResult {
 export interface PrintSetup {
   landscape?: boolean;
   displayHeaderFooter?: boolean;
+  headerTemplate?: string;
+  footerTemplate?: string;
   printBackground?: boolean;
   scale?: number;
   paperWidth?: number;
