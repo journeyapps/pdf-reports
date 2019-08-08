@@ -131,6 +131,7 @@ There are some caveats and limitations to be aware of:
    It is not possible to use styles from the page in the headers and footers.
  * Headers and footers do not support external resources, including stylesheets and images. Inline styles, and
    images with inline base64 content, are supported.
+ * `-webkit-print-color-adjust:exact;` should be added to any styles that rely on background colors.
 
 ## Using DocRaptor
 
