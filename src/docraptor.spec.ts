@@ -15,7 +15,7 @@ describe('pdfs - docraptor', function() {
     });
     const buffer = await pdf.toBuffer();
     expect(buffer.byteLength).to.gt(1000);
-    expect(buffer.slice(0, 8).toString('utf-8')).to.eq('%PDF-1.4');
+    expect(buffer.slice(0, 7).toString('utf-8')).to.eq('%PDF-1.'); // %PDF-1.4 or %PDF-1.5
   }).timeout(30000);
 
   it('should generate a PDF from a URL', async function() {
@@ -29,6 +29,6 @@ describe('pdfs - docraptor', function() {
     });
     const buffer = await pdf.toBuffer();
     expect(buffer.byteLength).to.gt(1000);
-    expect(buffer.slice(0, 8).toString('utf-8')).to.eq('%PDF-1.4');
+    expect(buffer.slice(0, 7).toString('utf-8')).to.eq('%PDF-1.'); // %PDF-1.4 or %PDF-1.5
   }).timeout(30000);
 });
