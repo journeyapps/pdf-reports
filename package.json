@@ -12,7 +12,7 @@
   },
   "peerDependencies": {
     "aws-sdk": "^2.162.0",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@types/chai": "^4.0.10",
@@ -22,7 +22,7 @@
     "aws-sdk": "^2.168.0",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.1",
     "ts-node": "^4.0.1",
     "typescript": "^2.6.2"
   }
