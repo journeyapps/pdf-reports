@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/circulate
     docker:
-      - image: circleci/node:8.3.0
+      - image: circleci/node:14.15.5
     steps:
       - checkout
       - restore_cache:
@@ -15,13 +15,13 @@ jobs:
           key: modules-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-      - run: ./node_modules/.bin/tsc
+      - run: yarn prepack
       - run: yarn test
 
   publish:
     working_directory: ~/circulate
     docker:
-      - image: circleci/node:8.3.0
+      - image: circleci/node:14.15.5
     environment:
     steps:
       - checkout
