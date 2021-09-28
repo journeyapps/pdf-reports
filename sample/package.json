@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@journeyapps/pdf-reports": "^0.1.0",
-    "@sendgrid/mail": "^6.1.4",
-    "node-fetch": "^1.7.3"
+    "@journeyapps/pdf-reports": "^1.0.0",
+    "@sendgrid/mail": "^6.5.5",
+    "node-fetch": "^2.6.5"
   }
 }

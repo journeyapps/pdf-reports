@@ -17,7 +17,7 @@ export async function generatePdf(options: PdfGeneratorOptions): Promise<PdfResu
     throw new Error('token is required');
   }
 
-  const url = options.serviceUrl || getUrl(options.region);
+  const url = options.serviceUrl || getUrl(options);
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -49,11 +49,10 @@ function autoRegion() {
   }
 }
 
-function getUrl(region?: string) {
-  if (region == null) {
-    region = autoRegion();
-  }
-  return `https://pdf-${region}.journeyapps.com/v2/generate-pdf`;
+function getUrl(options?: {region?: string, version?: string}) {
+  const region = options?.region ?? autoRegion();
+  const version = options?.version ?? 'v3';
+  return `https://pdf-${region}.journeyapps.com/${version}/generate-pdf`;
 }
 
 /**
@@ -168,6 +167,11 @@ export interface PdfGeneratorOptions extends PdfOptions {
    * Service region ('us', 'eu' or 'au')
    */
   region?: string;
+
+  /**
+   * PDF service version, defaults to v3.
+   */
+  version?: string;
 
   /**
    * Custom URL for the PDF service.

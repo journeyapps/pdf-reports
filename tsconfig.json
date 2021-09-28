@@ -2,8 +2,8 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "commonjs",
-    "target": "es2015",
-    "lib": ["es2016"],
+    "target": "es2018",
+    "lib": ["es2018"],
     "noImplicitAny": true,
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -12,6 +12,7 @@
     "rootDir": "src",
     "declaration": false,
     "allowJs": false,
+    "composite": true,
     "types": [
       "node",
       "node-fetch"
