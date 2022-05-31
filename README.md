@@ -43,10 +43,10 @@ const BASE_UPLOAD_CONFIG = {
 async function test() {
   // This function uploads the PDF directly to S3 from the service,
   // no intermediate download is required.
-  const result = await pdf.generateAndUploadPdf({
-    html: "<h1>Test PDF</h1>",
-    {name: 'test1.pdf', ...BASE_UPLOAD_CONFIG}
-  });
+  const result = await pdf.generateAndUploadPdf(
+    { html: "<h1>Test PDF</h1>" },
+    { name: 'test1.pdf', ...BASE_UPLOAD_CONFIG }
+  );
   // URL is valid for 7 days by default
   const url = result.getSignedUrl();
   console.log('url', url);
@@ -154,7 +154,7 @@ async function test() {
   fs.writeFileSync("out.pdf", buffer);
 
   // The PDF may be uploaded to S3 afterwards:
-  const s3result = await pdf.uploadToS3(result, {name: 'test1.pdf', ...BASE_UPLOAD_CONFIG}});
+  const s3result = await pdf.uploadToS3(result, { name: 'test1.pdf', ...BASE_UPLOAD_CONFIG });
   const url = s3result.getSignedUrl();
   console.log('url', url);
 }
