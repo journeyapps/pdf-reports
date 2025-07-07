@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/circulate
     docker:
-      - image: circleci/node:14.15.5
+      - image: circleci/node:22.15
     steps:
       - checkout
       - restore_cache:
@@ -21,7 +21,7 @@ jobs:
   publish:
     working_directory: ~/circulate
     docker:
-      - image: circleci/node:14.15.5
+      - image: circleci/node:22.15
     environment:
     steps:
       - checkout
