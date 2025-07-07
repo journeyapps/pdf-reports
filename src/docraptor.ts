@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-import { PdfOptions, PdfResult } from "./pdf";
+import { PdfOptions, PdfResult } from './pdf';
 
 var docRaptorToken: string = null;
 
@@ -33,7 +32,7 @@ export async function generatePdfDocRaptor(options: DocRaptorGenerateOptions) {
 
   if (options.html) {
     body.document_content = options.html;
-  } else if(options.url) {
+  } else if (options.url) {
     body.document_url = options.url;
   }
 
@@ -45,12 +44,11 @@ export async function generatePdfDocRaptor(options: DocRaptorGenerateOptions) {
     body: JSON.stringify(body)
   });
 
-
   if (!response.ok) {
-    throw new Error('Failed to generate PDF: ' + response.statusText + "\n" + await response.text());
+    throw new Error('Failed to generate PDF: ' + response.statusText + '\n' + (await response.text()));
   }
 
-  return new PdfResult(await response.buffer());
+  return new PdfResult(Buffer.from(await response.arrayBuffer()));
 }
 
 export interface DocRaptorGenerateOptions extends PdfOptions {

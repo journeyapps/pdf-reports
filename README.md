@@ -179,6 +179,8 @@ To run the tests, the following environment variables are required:
     AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY
 
+As [mentioned in the docs](https://docs.journeyapps.com/reference/cloudcode/advanced-cloudcode-topics/pdf-reports-using-cloudcode#journey_pdf_key-local-development-vs-cloudcloud), for local development you can use the following token for `JOURNEY_PDF_KEY`: `ohhu8Yahyu6ipee6aemeeg3quohghu2ijeph2xoZ`
+
 Then run:
 
     yarn test

@@ -5,7 +5,6 @@
   "license": "MIT",
   "dependencies": {
     "@journeyapps/pdf-reports": "^1.0.0",
-    "@sendgrid/mail": "^6.5.5",
-    "node-fetch": "^2.6.5"
+    "@sendgrid/mail": "^6.5.5"
   }
 }

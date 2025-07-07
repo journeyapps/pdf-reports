@@ -14,8 +14,7 @@
     "allowJs": false,
     "composite": true,
     "types": [
-      "node",
-      "node-fetch"
+      "node"
     ]
   },
   "include": [

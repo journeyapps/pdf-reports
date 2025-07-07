@@ -2,8 +2,6 @@ import { expect } from 'chai';
 import 'mocha';
 import { generatePdf, setApiToken } from './pdf';
 import { generateAndUploadPdf, uploadToS3 } from './s3';
-import { S3UploadOptions } from './index';
-import fetch from 'node-fetch';
 
 setApiToken(process.env.JOURNEY_PDF_KEY);
 
@@ -18,13 +16,16 @@ const BASE_UPLOAD_CONFIG = {
   }
 };
 
-describe('pdf to s3', function() {
-  it('should generate and then upload a PDF', async function() {
+describe('pdf to s3', function () {
+  it('should generate and then upload a PDF', async function () {
     // Generate
-    const pdf = await generatePdf({html: 'Test'});
+    const pdf = await generatePdf({ html: 'Test' });
 
     // Upload
-    const uploaded = await uploadToS3(pdf, {name: 'test1.pdf', ...BASE_UPLOAD_CONFIG});
+    const uploaded = await uploadToS3(pdf, {
+      name: 'test1.pdf',
+      ...BASE_UPLOAD_CONFIG
+    });
     const url = uploaded.getSignedUrl(300);
 
     // Access original (implicitly downloaded earlier)
@@ -33,19 +34,19 @@ describe('pdf to s3', function() {
     // Compare to uploaded one
     const response = await fetch(url);
     expect(response.headers.get('Content-Type')).to.eq('application/pdf');
-    const downloaded = await response.buffer();
+    const downloaded = Buffer.from(await response.arrayBuffer());
     expect(downloaded.byteLength).to.eq(generated.byteLength);
   }).timeout(30000);
 
-  it('should generate and upload in a single step', async function() {
+  it('should generate and upload in a single step', async function () {
     // Generate and upload
-    const uploaded = await generateAndUploadPdf({html: 'Test'}, {name: 'test2.pdf', ...BASE_UPLOAD_CONFIG});
+    const uploaded = await generateAndUploadPdf({ html: 'Test' }, { name: 'test2.pdf', ...BASE_UPLOAD_CONFIG });
     const url = uploaded.getSignedUrl(300);
 
     // Check file
     const response = await fetch(url);
     expect(response.headers.get('Content-Type')).to.eq('application/pdf');
-    const downloaded = await response.buffer();
+    const downloaded = Buffer.from(await response.arrayBuffer());
     expect(downloaded.byteLength).to.gt(1000);
   }).timeout(30000);
 });

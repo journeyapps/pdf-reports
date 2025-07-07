@@ -1,6 +1,4 @@
-import { generatePdf, PdfGeneratorOptions, PdfResult } from "./pdf";
-import fetch from "node-fetch";
-
+import { generatePdf, PdfGeneratorOptions, PdfResult } from './pdf';
 
 /**
  * Generate a PDF and upload to S3.
@@ -26,11 +24,10 @@ export async function generateAndUploadPdf(options: PdfGeneratorOptions, upload:
     ContentType: 'application/pdf'
   });
 
-  const result = await generatePdf({uploadTo: url, ...options});
+  const result = await generatePdf({ uploadTo: url, ...options });
 
   return new S3UploadResult(path, upload);
 }
-
 
 /**
  * Upload the PDF to S3.
@@ -59,12 +56,14 @@ export async function uploadToS3(pdf: Buffer | PdfResult, options: S3UploadOptio
 
   const path = (options.prefix || '') + options.name;
 
-  await s3.putObject({
-    Bucket: options.bucket,
-    Key: path,
-    Body: buffer,
-    ContentType: 'application/pdf'
-  }).promise();
+  await s3
+    .putObject({
+      Bucket: options.bucket,
+      Key: path,
+      Body: buffer,
+      ContentType: 'application/pdf'
+    })
+    .promise();
 
   return new S3UploadResult(path, options, buffer);
 }
@@ -113,12 +112,11 @@ export class S3UploadResult extends PdfResult {
   protected async download(): Promise<Buffer> {
     const pdfResponse = await fetch(this.getSignedUrl(300));
     if (!pdfResponse.ok) {
-      throw new Error(pdfResponse.statusText + ": " + await pdfResponse.text());
+      throw new Error(pdfResponse.statusText + ': ' + (await pdfResponse.text()));
     }
-    return pdfResponse.buffer();
+    return Buffer.from(await pdfResponse.arrayBuffer());
   }
 }
-
 
 export interface S3Credentials {
   region: string;
