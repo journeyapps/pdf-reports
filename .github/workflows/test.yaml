@@ -9,6 +9,7 @@ on:
 
 env:
   SECRETS: ${{ toJSON(secrets) }}
+  JOURNEY_PDF_KEY: ${{ secrets.JOURNEY_PDF_KEY }}
   PNPM_VERSION: 8
 
 jobs:
