@@ -6,6 +6,7 @@
   "author": "JourneyApps <info@journeyapps.com>",
   "license": "MIT",
   "scripts": {
+    "build": "./node_modules/.bin/tsc",
     "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc --project tsconfig.production.json",
     "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
     "test": "./node_modules/.bin/mocha src/**/*.spec.ts"
@@ -22,6 +23,6 @@
     "mocha": "^4.0.1",
     "ts-node": "^10.2.1",
     "prettier": "^3.3.3",
-    "typescript": "^4.4.3"
+    "typescript": "^4.9.5"
   }
 }
