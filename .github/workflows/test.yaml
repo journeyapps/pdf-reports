@@ -27,12 +27,13 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Enable Corepack
         run: |
           npm install -g corepack@latest
           corepack enable pnpm
+          pnpm -v
 
       - name: Install Dependencies
         uses: ./.github/ci/actions/npm-install
