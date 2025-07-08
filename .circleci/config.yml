@@ -8,15 +8,15 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - modules-{{ checksum "yarn.lock" }}
+            - modules-{{ checksum "pnpm-lock.yaml" }}
             - modules-
-      - run: yarn install --check-files --frozen-lockfile || yarn install --check-files --frozen-lockfile || yarn install --check-files --frozen-lockfile
+      - run: pnpm install --check-files --frozen-lockfile || pnpm install --check-files --frozen-lockfile || pnpm install --check-files --frozen-lockfile
       - save_cache:
-          key: modules-{{ checksum "yarn.lock" }}
+          key: modules-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
-      - run: yarn prepack
-      - run: yarn test
+      - run: pnpm prepack
+      - run: pnpm test
 
   publish:
     working_directory: ~/circulate
@@ -31,9 +31,9 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
       - restore_cache:
           keys:
-            - modules-{{ checksum "yarn.lock" }}
+            - modules-{{ checksum "pnpm-lock.yaml" }}
             - modules-
-      - run: yarn install --check-files --frozen-lockfile || yarn install --check-files --frozen-lockfile || yarn install --check-files --frozen-lockfile
+      - run: pnpm install --check-files --frozen-lockfile || pnpm install --check-files --frozen-lockfile || pnpm install --check-files --frozen-lockfile
       - run:
           name: Publish
           command: |
