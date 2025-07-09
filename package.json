@@ -9,7 +9,9 @@
     "build": "./node_modules/.bin/tsc",
     "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc --project tsconfig.production.json",
     "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
-    "test": "./node_modules/.bin/mocha src/**/*.spec.ts"
+    "test": "./node_modules/.bin/mocha src/**/*.spec.ts",
+    "ci:publish": "changeset publish && git push --follow-tags",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile"
   },
   "peerDependencies": {
     "aws-sdk": "^2.162.0"
