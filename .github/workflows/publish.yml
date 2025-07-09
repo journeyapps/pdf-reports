@@ -51,6 +51,13 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Publish dev packages.
+        if: ${{ github.ref != 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' && success() }}
+        uses: ./.github/ci/actions/pnpm-publish
+        with:
+          dev: true
+          version-cli: lerno
+
       - name: Create Release Pull Request or Publish to npm
         if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
         id: changesets
@@ -66,12 +73,3 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'false' && success() }}
         run: |
           echo "This would have been published"
-
-      - name: Publish dev packages.
-        if: ${{ github.ref != 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' && success() }}
-        run: |
-          echo "This would have been published"
-#        uses: ./.github/ci/actions/pnpm-publish
-#        with:
-#          dev: true
-#          version-cli: lerno
