@@ -56,7 +56,6 @@ jobs:
         uses: ./.github/ci/actions/pnpm-publish
         with:
           dev: true
-          version-cli: lerno
 
       - name: Create Release Pull Request or Publish to npm
         if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
