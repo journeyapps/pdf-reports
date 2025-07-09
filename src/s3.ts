@@ -1,3 +1,4 @@
+import { fetch } from './fetch';
 import { generatePdf, PdfGeneratorOptions, PdfResult } from './pdf';
 
 /**
@@ -114,7 +115,7 @@ export class S3UploadResult extends PdfResult {
     if (!pdfResponse.ok) {
       throw new Error(pdfResponse.statusText + ': ' + (await pdfResponse.text()));
     }
-    return Buffer.from(await pdfResponse.arrayBuffer());
+    return await pdfResponse.buffer();
   }
 }
 

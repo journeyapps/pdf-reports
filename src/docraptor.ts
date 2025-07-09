@@ -1,3 +1,4 @@
+import { fetch } from './fetch';
 import { PdfOptions, PdfResult } from './pdf';
 
 var docRaptorToken: string = null;
@@ -48,7 +49,7 @@ export async function generatePdfDocRaptor(options: DocRaptorGenerateOptions) {
     throw new Error('Failed to generate PDF: ' + response.statusText + '\n' + (await response.text()));
   }
 
-  return new PdfResult(Buffer.from(await response.arrayBuffer()));
+  return new PdfResult(await response.buffer());
 }
 
 export interface DocRaptorGenerateOptions extends PdfOptions {

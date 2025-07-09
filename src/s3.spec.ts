@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import 'mocha';
+import { fetch } from './fetch';
 import { generatePdf, setApiToken } from './pdf';
 import { generateAndUploadPdf, uploadToS3 } from './s3';
 
@@ -34,7 +35,7 @@ describe('pdf to s3', function () {
     // Compare to uploaded one
     const response = await fetch(url);
     expect(response.headers.get('Content-Type')).to.eq('application/pdf');
-    const downloaded = Buffer.from(await response.arrayBuffer());
+    const downloaded = await response.buffer();
     expect(downloaded.byteLength).to.eq(generated.byteLength);
   }).timeout(30000);
 
@@ -46,7 +47,7 @@ describe('pdf to s3', function () {
     // Check file
     const response = await fetch(url);
     expect(response.headers.get('Content-Type')).to.eq('application/pdf');
-    const downloaded = Buffer.from(await response.arrayBuffer());
+    const downloaded = await response.arrayBuffer();
     expect(downloaded.byteLength).to.gt(1000);
   }).timeout(30000);
 });

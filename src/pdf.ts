@@ -1,3 +1,5 @@
+import { fetch } from './fetch';
+
 var globalToken: string = null;
 
 export function setApiToken(token: string) {
@@ -121,7 +123,7 @@ export class GeneratedPdfResult extends PdfResult {
     if (!pdfResponse.ok) {
       throw new Error(pdfResponse.statusText + ': ' + (await pdfResponse.text()));
     }
-    return Buffer.from(await pdfResponse.arrayBuffer());
+    return await pdfResponse.buffer();
   }
 }
 
