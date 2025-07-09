@@ -43,27 +43,21 @@ jobs:
         with:
           client: pnpm
 
+
       - name: Has changesets
-        uses: actions/github-script@v6
-        id: changesetsCheck
-        with:
-          script: |
-            const script = async ({ core, require }) => {
-            const getChangesets = require('@changesets/read').default;
-              try {
-                const results = await getChangesets(process.cwd());
-                core.setOutput('hasChangesets', results.length === 0 ? 'false' : 'true');
-              } catch (e) {
-                core.setFailed(`Action failed with error ${e}`);
-              }
-            };
-            await script({ core, require });
+        uses: bluwy/detect-changesets-action@v1
+        id: detect
+
+      - if: steps.detect.outputs.has-changesets == 'true'
+        run: |
+          echo "Changesets detected!"
+          echo "Changesets: ${{ steps.detect.outputs.changesets }}"
 
       - name: Build
         run: pnpm build
 
       - name: Create Release Pull Request or Publish to npm
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
         id: changesets
         uses: changesets/action@v1.4.1
         with:
@@ -74,6 +68,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.SHARED_GH_TOKEN }}
 
       - name: Publish production packages.
-        if: ${{ github.ref == 'refs/heads/master' && steps.changesets.outputs.hasChangesets == 'false' && success() }}
+        if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'false' && success() }}
         run: |
           echo "This would have been published"
