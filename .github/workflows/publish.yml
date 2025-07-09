@@ -48,13 +48,11 @@ jobs:
         uses: bluwy/detect-changesets-action@v1
         id: detect
 
-      - if: steps.detect.outputs.has-changesets == 'true'
-        run: |
-          echo "Changesets detected!"
-          echo "Changesets: ${{ steps.detect.outputs.changesets }}"
-
       - name: Build
         run: pnpm build
+
+      - name: Test
+        run: pnpm test
 
       - name: Create Release Pull Request or Publish to npm
         if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
@@ -71,3 +69,12 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'false' && success() }}
         run: |
           echo "This would have been published"
+
+      - name: Publish dev packages.
+        if: ${{ github.ref != 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' && success() }}
+        run: |
+          echo "This would have been published"
+#        uses: ./.github/ci/actions/pnpm-publish
+#        with:
+#          dev: true
+#          version-cli: lerno
