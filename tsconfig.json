@@ -10,12 +10,10 @@
     "alwaysStrict": true,
     "outDir": "lib",
     "rootDir": "src",
-    "declaration": false,
     "allowJs": false,
     "composite": true,
     "types": [
-      "node",
-      "node-fetch"
+      "node"
     ]
   },
   "include": [

@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
-import { PdfOptions, PdfResult } from "./pdf";
+import { fetch } from './fetch';
+import { PdfOptions, PdfResult } from './pdf';
 
 var docRaptorToken: string = null;
 

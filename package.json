@@ -1,29 +1,36 @@
 {
   "name": "@journeyapps/pdf-reports",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "lib/index.js",
   "repository": "https://github.com/journeyapps/pdf-reports",
   "author": "JourneyApps <info@journeyapps.com>",
+  "workspaces": ["."],
   "license": "MIT",
   "scripts": {
+    "build": "./node_modules/.bin/tsc",
     "prepack": "rm -rf ./lib && export NODE_ENV=production && ./node_modules/.bin/tsc --project tsconfig.production.json",
     "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
-    "test": "./node_modules/.bin/mocha src/**/*.spec.ts"
+    "test": "./node_modules/.bin/mocha src/**/*.spec.ts",
+    "ci:publish": "changeset publish && git push --follow-tags",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.162.0",
-    "node-fetch": "^2.6.0"
+    "aws-sdk": "^2.162.0"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.44",
-    "@types/node": "^14.0.0",
-    "@types/node-fetch": "^2.5.12",
+    "@types/node": "^22.15.1",
+    "lerna": "^8.2.3",
     "aws-sdk": "^2.168.0",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
-    "node-fetch": "^1.7.3",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5"
+  },
+  "packageManager": "pnpm@10.12.4+sha512.5ea8b0deed94ed68691c9bad4c955492705c5eeb8a87ef86bc62c74a26b037b08ff9570f108b2e4dbd1dd1a9186fea925e527f141c648e85af45631074680184",
+  "dependencies": {
   }
 }

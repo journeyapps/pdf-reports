@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import { generatePdf, setApiToken } from './pdf';
 import { generateAndUploadPdf, uploadToS3 } from './s3';
-import { S3UploadOptions } from './index';
-import fetch from 'node-fetch';
+import { fetch } from './fetch';
 
 setApiToken(process.env.JOURNEY_PDF_KEY);
 

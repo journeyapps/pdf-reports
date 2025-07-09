@@ -1,6 +1,5 @@
-import { generatePdf, PdfGeneratorOptions, PdfResult } from "./pdf";
-import fetch from "node-fetch";
-
+import { fetch } from './fetch';
+import { generatePdf, PdfGeneratorOptions, PdfResult } from './pdf';
 
 /**
  * Generate a PDF and upload to S3.
@@ -53,7 +52,6 @@ export async function uploadToS3(pdf: Buffer | PdfResult, options: S3UploadOptio
     buffer = await pdf.toBuffer();
   }
 
-  const bucketName = options.bucket;
   const credentials = options.credentials;
   const s3 = new AWS.S3(credentials);
 
