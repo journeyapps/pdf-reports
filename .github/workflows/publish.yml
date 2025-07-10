@@ -58,13 +58,13 @@ jobs:
           dev: true
 
       - name: Create Release Pull Request or Publish to npm
-        if: ${{ github.ref != 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
+        if: ${{ github.ref == 'refs/heads/master' && steps.detect.outputs.has-changesets == 'true' }}
         id: changesets
         uses: changesets/action@v1.4.1
         with:
           version: pnpm ci:version
-          commit: "test: test PR please ignore"
-          title: "[TEST] test PR please ignore"
+          commit: "chore: update versions"
+          title: "[Chore] update versions"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
