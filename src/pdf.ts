@@ -22,16 +22,16 @@ export async function generatePdf(options: PdfGeneratorOptions): Promise<PdfResu
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(options)
   });
 
   if (!response.ok) {
-    throw new Error('Failed to generate PDF: ' + response.statusText + "\n" + await response.text());
+    throw new Error('Failed to generate PDF: ' + response.statusText + '\n' + (await response.text()));
   }
 
-  const { location } = await response.json() as { location: string };
+  const { location } = (await response.json()) as { location: string };
   return new GeneratedPdfResult(location);
 }
 
@@ -39,17 +39,21 @@ function autoRegion() {
   const awsRegion = process.env.AWS_REGION;
   if (/^us/.test(awsRegion)) {
     return 'us';
-  } else if(/^eu/.test(awsRegion)) {
-    return 'eu';
-  } else if(/^ap/.test(awsRegion)) {
-    return 'ap';
-  } else {
-    // Default to 'us'.
-    return 'us';
   }
+
+  if (/^eu/.test(awsRegion)) {
+    return 'eu';
+  }
+
+  if (/^ap/.test(awsRegion)) {
+    return 'au';
+  }
+
+  // Default to 'us'.
+  return 'us';
 }
 
-function getUrl(options?: {region?: string, version?: string}) {
+function getUrl(options?: { region?: string; version?: string }) {
   const region = options?.region ?? autoRegion();
   const version = options?.version ?? 'v3';
   return `https://pdf-${region}.journeyapps.com/${version}/generate-pdf`;
@@ -121,13 +125,11 @@ export class GeneratedPdfResult extends PdfResult {
   protected async download() {
     const pdfResponse = await fetch(this.location);
     if (!pdfResponse.ok) {
-      throw new Error(pdfResponse.statusText + ": " + await pdfResponse.text());
+      throw new Error(pdfResponse.statusText + ': ' + (await pdfResponse.text()));
     }
     return pdfResponse.buffer();
   }
 }
-
-
 
 export interface PrintSetup {
   landscape?: boolean;
