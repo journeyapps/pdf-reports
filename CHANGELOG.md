@@ -1,5 +1,11 @@
 # @journeyapps/pdf-reports
 
+## 2.0.1
+
+### Patch Changes
+
+- 0f6a4a0: Fixed Asia-Pacific/Australia API url
+
 ## 2.0.0
 
 ### Major Changes
